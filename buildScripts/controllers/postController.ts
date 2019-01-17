@@ -7,6 +7,7 @@ export class PostController {
   constructor() {
     this.router = Router();
     this.routes();
+    console.log('here');
   }
 
   public async all(

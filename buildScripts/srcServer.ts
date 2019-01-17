@@ -6,7 +6,7 @@ import * as express from 'express';
 import * as helmet from 'helmet';
 import * as mongoose from 'mongoose';
 import * as logger from 'morgan';
-import * as router from './router';
+//import * as router from './router';
 import * as evnconf from 'dotenv';
 
 import { PostController } from './controllers/PostController';
@@ -52,10 +52,10 @@ class Server {
   }
 
   public routes(): void {
-    // const router: express.Router = express.Router();
-    // this.app.use('/', router);
-    // this.app.use('/posts',  postRouter.router);
-    // this.app.use('/users', userRouter.router);
+    const router: express.Router = express.Router();
+    this.app.use('/', router);
+    this.app.use('/posts',  postRouter.router);
+    this.app.use('/users', userRouter.router);
   }
 }
 

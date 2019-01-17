@@ -1,19 +1,19 @@
-import * as express from 'express';
-import * as path from 'path';
+// import * as express from 'express';
+// import * as path from 'path';
 
 
 
-class Router {
+// class Router {
 
-public baseFolder:any;
-public app:express.Application;
+// public baseFolder:any;
+// public app:express.Application;
 
-constructort (app, ){
+// constructort (app, ){
 
 
-}
+// }
 
-}
+// }
 
 
 
