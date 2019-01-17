@@ -1,0 +1,17 @@
+{
+  "root":true,
+  "parserOptions":{
+    "ecmaVersion": 7,
+    "sourceType": "module"
+   },
+  "extends": ["airbnb", "prettier"],
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": ["error"]
+  },
+  "env": {
+    "browser": true,
+    "node":true,
+    "mocha": true
+  }
+}
