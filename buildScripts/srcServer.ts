@@ -13,11 +13,8 @@ import * as admin from 'firebase-admin';
 let dataBaseSetting = require(' ./../../serviceAccountKey.json5');
 console.log(dataBaseSetting);
 //let account = require('../serviceAccountKey.json');
-
-
 import { PostController } from './controllers/PostController';
 import { UserController } from './controllers/UserController';
-
 const postRouter = new PostController();
 const userRouter = new UserController();
 
