@@ -19,11 +19,9 @@ class Server {
     this.config();
     this.routes();
   }
-
   public config(): void {
     const MONGO_URI: string = 'mongodb://localhost/tes';
     mongoose.connect(MONGO_URI || process.env.MONGODB_URI,{ useNewUrlParser: true });
-
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(bodyParser.json());
     this.app.use(cookieParser());
@@ -31,7 +29,6 @@ class Server {
     this.app.use(compression());
     this.app.use(helmet());
     this.app.use(cors());
-
     this.app.use((_, res: express.Response, next: express.NextFunction) => {
       res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
       res.header(
