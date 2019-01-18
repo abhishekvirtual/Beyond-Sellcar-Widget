@@ -1,0 +1,8 @@
+
+  {
+    "version": 2,
+    "alias": ["abhi.com", "www.abhi.com"],
+    "builds": [
+    { "src": "*", "use": "@now/static" },{ "src": "dist/server.js", "use": "@now/node-server" }]
+  }
+

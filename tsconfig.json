@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2015",
     "module": "commonjs",
     "noImplicitAny": true,
+
     "outDir": "./dist",
     "rootDir": "./buildScripts",
     "sourceMap": true,

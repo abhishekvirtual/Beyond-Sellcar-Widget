@@ -6,8 +6,15 @@ import * as express from 'express';
 import * as helmet from 'helmet';
 import * as mongoose from 'mongoose';
 import * as logger from 'morgan';
-import * as router from './router';
+import * as path from 'path';
+//import * as router from './router';
 import * as evnconf from 'dotenv';
+
+import * as admin from 'firebase-admin';
+let dataBaseSetting = require(' ./../../serviceAccountKey.json5');
+console.log(dataBaseSetting);
+//let account = require('../serviceAccountKey.json');
+
 import { PostController } from './controllers/PostController';
 import { UserController } from './controllers/UserController';
 const postRouter = new PostController();
@@ -45,10 +52,13 @@ class Server {
   }
 
   public routes(): void {
-    // const router: express.Router = express.Router();
-    // this.app.use('/', router);
-    // this.app.use('/posts',  postRouter.router);
-    // this.app.use('/users', userRouter.router);
+    const router: express.Router = express.Router();
+    this.app.use('/', router);
+    this.app.use('/posts',  postRouter.router);
+    this.app.use('/users', userRouter.router);
+    this.app.all('/*', (req, res) => {
+      res.sendFile(path.resolve('buildscripts/public/index.html'));
+  });
   }
 }
 
