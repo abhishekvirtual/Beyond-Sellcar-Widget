@@ -16,9 +16,8 @@ console.log(dataBaseSetting);
 //let account = require('../serviceAccountKey.json');
 
 import { PostController } from './controllers/PostController';
-import { UserController } from './controllers/UserController';
 const postRouter = new PostController();
-const userRouter = new UserController();
+
 class Server {
   public app: express.Application;
   constructor() {
@@ -27,9 +26,11 @@ class Server {
     this.routes();
   }
   public config(): void {
-    const MONGO_URI: string = 'mongodb://localhost/tes';
-    mongoose.connect(MONGO_URI || process.env.MONGODB_URI,{ useNewUrlParser: true });
-    this.app.use(bodyParser.urlencoded({ extended: true }));
+    admin.initializeApp({
+      credential: admin.credential.cert(dataBaseSetting),
+      databaseURL: 'https://<DATABASE_NAME>.firebaseio.com'
+    });
+
     this.app.use(bodyParser.json());
     this.app.use(cookieParser());
     this.app.use(logger('dev'));
@@ -55,7 +56,6 @@ class Server {
     const router: express.Router = express.Router();
     this.app.use('/', router);
     this.app.use('/posts',  postRouter.router);
-    this.app.use('/users', userRouter.router);
     this.app.all('/*', (req, res) => {
       res.sendFile(path.resolve('buildscripts/public/index.html'));
   });
