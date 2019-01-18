@@ -35,7 +35,12 @@ module.exports = {
           test: /\.tsx?$/,
           exclude:/(node_modules|bower_components)/,
           loader: 'ts-loader',
-      },
+        },
+        {
+          test: /\.json5$/,
+          exclude:/(node_modules|bower_components)/,
+          loader: 'json5-loader',
+        }
       ]
     },
     externals:nodeModules

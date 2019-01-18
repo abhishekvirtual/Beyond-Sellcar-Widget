@@ -10,11 +10,7 @@ export class PostController {
     console.log('here');
   }
 
-  public async all(
-    _: Request,
-    res: Response,
-    next: NextFunction,
-  ): Promise<Response | void> {
+  public async all(_: Request, res: Response, next: NextFunction,): Promise<Response | void> {
     try {
       const data = await Post.find();
       return res.status(200).json({ data, message: 'success' });
@@ -105,3 +101,4 @@ export class PostController {
     this.router.delete('/:slug', this.delete);
   }
 }
+
