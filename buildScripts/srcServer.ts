@@ -12,10 +12,8 @@ import { PostController } from './controllers/PostController';
 import { UserController } from './controllers/UserController';
 const postRouter = new PostController();
 const userRouter = new UserController();
-
 class Server {
   public app: express.Application;
-
   constructor() {
     this.app = express();
     this.config();
