@@ -8,10 +8,8 @@ import * as mongoose from 'mongoose';
 import * as logger from 'morgan';
 import * as router from './router';
 import * as evnconf from 'dotenv';
-
 import { PostController } from './controllers/PostController';
 import { UserController } from './controllers/UserController';
-
 const postRouter = new PostController();
 const userRouter = new UserController();
 
