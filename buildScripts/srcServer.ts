@@ -9,36 +9,34 @@ import * as logger from 'morgan';
 import * as path from 'path';
 //import * as router from './router';
 import * as evnconf from 'dotenv';
+
 import * as admin from 'firebase-admin';
-let dataBaseSetting = require(' ./../../serviceAccountKey.json5');
-console.log(dataBaseSetting);
+let serviceAccount = require(' ./../../serviceAccountKey.json5');
 //let account = require('../serviceAccountKey.json');
+
 import { PostController } from './controllers/PostController';
-import { UserController } from './controllers/UserController';
 const postRouter = new PostController();
-const userRouter = new UserController();
 
 class Server {
   public app: express.Application;
-
   constructor() {
     this.app = express();
     this.config();
     this.routes();
   }
-
   public config(): void {
-    const MONGO_URI: string = 'mongodb://localhost/tes';
-    mongoose.connect(MONGO_URI || process.env.MONGODB_URI,{ useNewUrlParser: true });
+    admin.initializeApp({
+      credential:admin.credential.cert(serviceAccount)
+    });
 
-    this.app.use(bodyParser.urlencoded({ extended: true }));
+    const db = admin.firestore();
+    console.log(db);
     this.app.use(bodyParser.json());
     this.app.use(cookieParser());
     this.app.use(logger('dev'));
     this.app.use(compression());
     this.app.use(helmet());
     this.app.use(cors());
-
     this.app.use((_, res: express.Response, next: express.NextFunction) => {
       res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
       res.header(
@@ -58,7 +56,6 @@ class Server {
     const router: express.Router = express.Router();
     this.app.use('/', router);
     this.app.use('/posts',  postRouter.router);
-    this.app.use('/users', userRouter.router);
     this.app.all('/*', (req, res) => {
       res.sendFile(path.resolve('buildscripts/public/index.html'));
   });
