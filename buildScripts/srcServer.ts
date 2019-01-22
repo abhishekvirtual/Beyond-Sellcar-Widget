@@ -14,8 +14,8 @@ import * as admin from 'firebase-admin';
 let serviceAccount = require(' ./../../serviceAccountKey.json5');
 //let account = require('../serviceAccountKey.json');
 
-import { PostController } from './controllers/PostController';
-const postRouter = new PostController();
+import { CarPost } from './controllers/carPost';
+const carPostRouter = new CarPost();
 
 class Server {
   public app: express.Application;
@@ -26,11 +26,11 @@ class Server {
   }
   public config(): void {
     admin.initializeApp({
-      credential:admin.credential.cert(serviceAccount)
+      credential:admin.credential.cert(serviceAccount),
+      databaseURL: "https://crafty-cairn-194009.firebaseio.com"
     });
 
     const db = admin.firestore();
-    console.log(db);
     this.app.use(bodyParser.json());
     this.app.use(cookieParser());
     this.app.use(logger('dev'));
@@ -55,7 +55,7 @@ class Server {
   public routes(): void {
     const router: express.Router = express.Router();
     this.app.use('/', router);
-    this.app.use('/posts',  postRouter.router);
+    this.app.use('/postCar',  carPostRouter.router);
     this.app.all('/*', (req, res) => {
       res.sendFile(path.resolve('buildscripts/public/index.html'));
   });
@@ -63,5 +63,3 @@ class Server {
 }
 
 export default new Server().app;
-
-
