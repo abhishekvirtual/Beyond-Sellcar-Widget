@@ -11,8 +11,7 @@ import * as path from 'path';
 import * as evnconf from 'dotenv';
 
 import * as admin from 'firebase-admin';
-let dataBaseSetting = require(' ./../../serviceAccountKey.json5');
-console.log(dataBaseSetting);
+let serviceAccount = require(' ./../../serviceAccountKey.json5');
 //let account = require('../serviceAccountKey.json');
 
 import { PostController } from './controllers/PostController';
@@ -27,10 +26,11 @@ class Server {
   }
   public config(): void {
     admin.initializeApp({
-      credential: admin.credential.cert(dataBaseSetting),
-      databaseURL: 'https://<DATABASE_NAME>.firebaseio.com'
+      credential:admin.credential.cert(serviceAccount)
     });
 
+    const db = admin.firestore();
+    console.log(db);
     this.app.use(bodyParser.json());
     this.app.use(cookieParser());
     this.app.use(logger('dev'));
