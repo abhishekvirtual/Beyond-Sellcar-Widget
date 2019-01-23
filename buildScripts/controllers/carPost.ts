@@ -2,12 +2,11 @@ import { NextFunction, Request, Response, Router } from 'express';
 import * as admin from 'firebase-admin';
 export class CarPost {
   public router: Router;
+
   public databaseRef:any;
   constructor() {
     this.router = Router();
     this.routes();
-
-
   }
   public async create(
     req: Request,
@@ -36,6 +35,33 @@ export class CarPost {
       return next(error.message);
     }
   }
+  public async createLead(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response | void> {
+    const {
+      consignPrice,dealerPrice,dealeronly,consignonly,consigndealer
+    } = req.body;
+    try {
+      let db = admin.database().ref();
+      let usersRef = db.child("leads");
+      const data = usersRef.push({
+       "consignPrice":req.body.consignPrice,
+       "dealerPrice":req.body.dealerPrice,
+       "dealeronly":req.body.dealeronly,
+       "consignonly":req.body.consignonly,
+       "consigndealer":req.body.consigndealer,
+      });
+      res.status(201).json({ data, message: 'success' });
+
+    } catch (error) {
+      return next(error.message);
+    }
+  }
+
+
+
 
 
   public async createLead(

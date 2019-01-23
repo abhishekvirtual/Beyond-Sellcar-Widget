@@ -13,7 +13,9 @@ import * as evnconf from 'dotenv';
 import * as admin from 'firebase-admin';
 let serviceAccount = require(' ./../../serviceAccountKey.json5');
 //let account = require('../serviceAccountKey.json');
+
 import { CarPost } from './controllers/carPost';
+
 
 class Server {
   public app: express.Application;
@@ -26,6 +28,7 @@ class Server {
   }
   public config(): void {
     const db = admin.initializeApp({
+    admin.initializeApp({
       credential:admin.credential.cert(serviceAccount),
       databaseURL: "https://crafty-cairn-194009.firebaseio.com"
     });
