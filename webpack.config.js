@@ -27,7 +27,8 @@ module.exports = {
     output:{
       path:path.resolve(__dirname,'dist'),
       publicPath:'/',
-      filename:'server.js'
+      filename:'server.js',
+      globalObject: 'self'
     },
     module:{
       rules:[
@@ -40,7 +41,11 @@ module.exports = {
           test: /\.json5$/,
           exclude:/(node_modules|bower_components)/,
           loader: 'json5-loader',
-        }
+        },
+        {
+          test:/\.css$/,
+          use:['style-loader','css-loader']
+      }
       ]
     },
     externals:nodeModules

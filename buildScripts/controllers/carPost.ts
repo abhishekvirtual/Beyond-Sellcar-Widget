@@ -1,13 +1,14 @@
 import { NextFunction, Request, Response, Router } from 'express';
+import * as request from "request-promise-native";
 import * as admin from 'firebase-admin';
+import { promises } from 'fs';
 export class CarPost {
   public router: Router;
   public databaseRef:any;
+   docKey:string;
   constructor() {
     this.router = Router();
     this.routes();
-
-
   }
   public async create(
     req: Request,
@@ -18,9 +19,7 @@ export class CarPost {
       carColour,customerName,carMake,phoneNumber,carMileage,canDirectSale,carYear,carModel,email
     } = req.body;
     try {
-      let databaseRef = admin.database().ref();
-      let usersRef = databaseRef.child("users");
-        const data = usersRef.push({
+      let datas = {
         "carColour":req.body.carColour,
         "customerName":req.body.customerName,
         "carMake":req.body.carMake,
@@ -30,7 +29,26 @@ export class CarPost {
         "carYear":req.body.carYear,
         "carModel":req.body.carModel,
         "email":req.body.email,
+        }
+      let databaseRef = admin.database().ref();
+      let usersRef = databaseRef.child("users");
+        const data = usersRef.push(datas).then((snap)=>{
+            this.docKey = snap.key;
         });
+        console.log(this.docKey);
+        const options = {
+          method: 'POST',
+          body: {"text": `<https://alert-system.com/alerts/1234| ${req.body.canDirectSale}: ${req.body.carYear},,${req.body.carModel},${req.body.carYear},${req.body.carColour}(${req.body.carMileage}/${req.body.customerName})>`},
+          json: true,
+          uri: 'https://hooks.slack.com/services/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',
+        };
+  //https://hooks.slack.com/services/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 //client chennel
+         const result = await request(options).then(data=>{
+              console.log(data);
+         }).catch(err=>{
+              console.log(err);
+         });
+
         res.status(201).json({ data, message: 'success' });
     } catch (error) {
       return next(error.message);
@@ -49,15 +67,15 @@ export class CarPost {
     try {
       let db = admin.database().ref();
       let usersRef = db.child("leads");
-      const data = usersRef.push({
-       "consignPrice":req.body.consignPrice,
-       "dealerPrice":req.body.dealerPrice,
-       "dealeronly":req.body.dealeronly,
-       "consignonly":req.body.consignonly,
-       "consigndealer":req.body.consigndealer,
-      });
-      res.status(201).json({ data, message: 'success' });
-
+      let datas = {
+        "consignPrice":req.body.consignPrice,
+        "dealerPrice":req.body.dealerPrice,
+        "dealeronly":req.body.dealeronly,
+        "consignonly":req.body.consignonly,
+        "consigndealer":req.body.consigndealer,
+       }
+       const data = usersRef.push(datas);
+       res.status(201).json({ data, message: 'success' });
     } catch (error) {
       return next(error.message);
     }
