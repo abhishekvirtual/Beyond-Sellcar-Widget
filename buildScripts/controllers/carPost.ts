@@ -5,7 +5,7 @@ import { promises } from 'fs';
 export class CarPost {
   public router: Router;
   public databaseRef:any;
-   docKey:string;
+
   constructor() {
     this.router = Router();
     this.routes();
@@ -33,14 +33,13 @@ export class CarPost {
       let databaseRef = admin.database().ref();
       let usersRef = databaseRef.child("users");
         const data = usersRef.push(datas).then((snap)=>{
-            this.docKey = snap.key;
+
         });
-        console.log(this.docKey);
         const options = {
           method: 'POST',
           body: {"text": `<https://alert-system.com/alerts/1234| ${req.body.canDirectSale}: ${req.body.carYear},,${req.body.carModel},${req.body.carYear},${req.body.carColour}(${req.body.carMileage}/${req.body.customerName})>`},
           json: true,
-          uri: 'https://hooks.slack.com/services/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',
+          uri: 'https://hooks.slack.com/services/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',
         };
   //https://hooks.slack.com/services/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 //client chennel
          const result = await request(options).then(data=>{

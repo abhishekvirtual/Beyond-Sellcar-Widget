@@ -28,7 +28,7 @@ class Server {
   public config(): void {
     const db = admin.initializeApp({
       credential:admin.credential.cert(serviceAccount),
-      databaseURL: "https://crafty-cairn-194009.firebaseio.com"
+      databaseURL: "https://beyo-8f9ec.firebaseio.com"
     });
     this.carPostRouter = new CarPost();
     this.app.use(bodyParser.json());

@@ -1,8 +1,9 @@
 // tslint:disable
+
 import * as debug from 'debug';
 import * as http from 'http';
 import Server from './srcServer';
-//import '../src/css/main.css';
+import './public/css/main.css';
 //debug('ts-express:server');
 
 const port = normalizePort(process.env.PORT || 3000);
