@@ -1,2 +1,4 @@
 node_modules
+.\serviceAccountKey.json5
 serviceAccountKey.json5
+
