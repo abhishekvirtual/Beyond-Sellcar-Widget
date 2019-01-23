@@ -31,7 +31,7 @@ export class CarPost {
         "email":req.body.email,
         }
       let databaseRef = admin.database().ref();
-      let usersRef = databaseRef.child("users");
+      let usersRef = databaseRef.child("carSellListings");
         const data = usersRef.push(datas).then((snap)=>{
 
         });
