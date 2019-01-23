@@ -7,6 +7,7 @@ import * as helmet from 'helmet';
 import * as mongoose from 'mongoose';
 import * as logger from 'morgan';
 import * as path from 'path';
+
 //import * as router from './router';
 import * as evnconf from 'dotenv';
 
@@ -60,5 +61,4 @@ class Server {
     });
   }
 }
-
 export default new Server().app;
