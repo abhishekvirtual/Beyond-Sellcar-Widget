@@ -2,10 +2,12 @@ import { NextFunction, Request, Response, Router } from 'express';
 import * as admin from 'firebase-admin';
 export class CarPost {
   public router: Router;
-  public db:any;
+  public databaseRef:any;
   constructor() {
     this.router = Router();
     this.routes();
+
+
   }
   public async create(
     req: Request,
@@ -16,24 +18,26 @@ export class CarPost {
       carColour,customerName,carMake,phoneNumber,carMileage,canDirectSale,carYear,carModel,email
     } = req.body;
     try {
-      var db = admin.database().ref();
-      var usersRef = db.child("users");
-      const data = usersRef.push({
-       "carColour":req.body.carColour,
-       "customerName":req.body.customerName,
-       "carMake":req.body.carMake,
-       "phoneNumber":req.body.phoneNumber,
-       "carMileage":req.body.carMileage,
-       "canDirectSale":req.body.canDirectSale,
-       "carYear":req.body.carYear,
-       "carModel":req.body.carModel,
-       "email":req.body.email,
-      });
-      res.status(201).json({ data, message: 'success' });
+      let databaseRef = admin.database().ref();
+      let usersRef = databaseRef.child("users");
+        const data = usersRef.push({
+        "carColour":req.body.carColour,
+        "customerName":req.body.customerName,
+        "carMake":req.body.carMake,
+        "phoneNumber":req.body.phoneNumber,
+        "carMileage":req.body.carMileage,
+        "canDirectSale":req.body.canDirectSale,
+        "carYear":req.body.carYear,
+        "carModel":req.body.carModel,
+        "email":req.body.email,
+        });
+        res.status(201).json({ data, message: 'success' });
     } catch (error) {
       return next(error.message);
     }
   }
+
+
   public async createLead(
     req: Request,
     res: Response,
@@ -43,7 +47,7 @@ export class CarPost {
       consignPrice,dealerPrice,dealeronly,consignonly,consigndealer
     } = req.body;
     try {
-      var db = admin.database().ref();
+      let db = admin.database().ref();
       let usersRef = db.child("leads");
       const data = usersRef.push({
        "consignPrice":req.body.consignPrice,
@@ -53,10 +57,13 @@ export class CarPost {
        "consigndealer":req.body.consigndealer,
       });
       res.status(201).json({ data, message: 'success' });
+
     } catch (error) {
       return next(error.message);
     }
   }
+
+
   public routes() {
     this.router.post('/car', this.create);
     this.router.post('/leads', this.createLead);

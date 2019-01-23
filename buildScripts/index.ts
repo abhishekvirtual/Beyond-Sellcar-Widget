@@ -8,7 +8,7 @@ import Server from './srcServer';
 const port = normalizePort(process.env.PORT || 3000);
 
 
-//Server.set('port', port);
+Server.set('port', port);
 
 console.log(`Server listening on port ${port}`);
 

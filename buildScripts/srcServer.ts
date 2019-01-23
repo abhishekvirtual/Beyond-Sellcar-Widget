@@ -13,25 +13,23 @@ import * as evnconf from 'dotenv';
 import * as admin from 'firebase-admin';
 let serviceAccount = require(' ./../../serviceAccountKey.json5');
 //let account = require('../serviceAccountKey.json');
-
 import { CarPost } from './controllers/carPost';
-const carPost = new CarPost();
 
 class Server {
   public app: express.Application;
+  public carPostRouter:CarPost;
+
   constructor() {
     this.app = express();
     this.config();
     this.routes();
   }
   public config(): void {
-    admin.initializeApp({
+    const db = admin.initializeApp({
       credential:admin.credential.cert(serviceAccount),
       databaseURL: "https://crafty-cairn-194009.firebaseio.com"
     });
-
-    const db = admin.firestore();
-    console.log(db);
+    this.carPostRouter = new CarPost();
     this.app.use(bodyParser.json());
     this.app.use(cookieParser());
     this.app.use(logger('dev'));
@@ -52,17 +50,15 @@ class Server {
       next();
     });
   }
-
   public routes(): void {
+
     const router: express.Router = express.Router();
     this.app.use('/', router);
-    this.app.use('/postCar',  carPost.router);
+    this.app.use('/postCar',  this.carPostRouter.router);
     this.app.all('/*', (req, res) => {
       res.sendFile(path.resolve('buildscripts/public/index.html'));
-  });
+    });
   }
 }
 
 export default new Server().app;
-
-

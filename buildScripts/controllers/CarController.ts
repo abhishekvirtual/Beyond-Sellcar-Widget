@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import { Post } from '../models/post';
 
-export class PostController {
+export class CarController {
   public router: Router;
 
   constructor() {
@@ -94,7 +94,7 @@ export class PostController {
   }
 
   public routes() {
-    this.router.get('/', this.all);
+
     this.router.get('/:slug', this.one);
     this.router.post('/', this.create);
     this.router.put('/:slug', this.update);
