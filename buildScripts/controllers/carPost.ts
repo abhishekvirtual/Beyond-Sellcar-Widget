@@ -37,7 +37,35 @@ export class CarPost {
     }
   }
 
+
+  public async createLead(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response | void> {
+    const {
+      consignPrice,dealerPrice,dealeronly,consignonly,consigndealer
+    } = req.body;
+    try {
+      let db = admin.database().ref();
+      let usersRef = db.child("leads");
+      const data = usersRef.push({
+       "consignPrice":req.body.consignPrice,
+       "dealerPrice":req.body.dealerPrice,
+       "dealeronly":req.body.dealeronly,
+       "consignonly":req.body.consignonly,
+       "consigndealer":req.body.consigndealer,
+      });
+      res.status(201).json({ data, message: 'success' });
+
+    } catch (error) {
+      return next(error.message);
+    }
+  }
+
+
   public routes() {
     this.router.post('/car', this.create);
+    this.router.post('/leads', this.createLead);
   }
 }
