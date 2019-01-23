@@ -13,7 +13,7 @@ const port = normalizePort(process.env.PORT || 3000);
 console.log(`Server listening on port ${port}`);
 
 const server = http.createServer(Server);
-server.listen();
+server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
